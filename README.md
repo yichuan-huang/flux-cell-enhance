@@ -137,6 +137,6 @@ If you use this tool in your research, please cite:
   title={Flux Cell Enhancement: Microscopy Image Enhancement using Diffusion Models},
   author={Your Name},
   year={2025},
-  url={https://github.com/your-username/flux-cell-enhance}
+  url={https://github.com/yichuan-huang/flux-cell-enhance}
 }
 ```
