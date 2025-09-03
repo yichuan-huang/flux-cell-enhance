@@ -37,9 +37,9 @@ def is_stained_folder(folder_name):
 brightfield_prompt = "enhance bright-field microscopy, high cell-background contrast, sharp crisp cell boundaries, clear defined edges, enhanced cell outline"
 brightfield_negative = "noise amplification, grain, speckle, background texture, blurry edges, soft boundaries"
 
-# For stained cell images (B folders) - gentle enhancement to avoid distortion
-stained_prompt = "enhance stained microscopy, gentle clarification, preserve cellular structures, maintain staining colors, subtle improvement"
-stained_negative = "distortion, color shift, over-enhancement, artificial appearance, noise amplification, artifacts"
+# For stained cell images (B folders) - gentle enhancement with preserved cellular structures
+stained_prompt = "gently enhance stained microscopy, preserve cellular structures, subtle clarity improvement, maintain natural staining patterns, enhance cell visibility"
+stained_negative = "distortion, color shift, over-enhancement, artificial appearance, noise amplification, artifacts, excessive contrast, unnatural colors"
 
 # Default prompts for unknown folder types
 default_prompt = "enhance microscopy image, improve clarity, noise reduction"
@@ -74,8 +74,8 @@ def process_directory(input_dir, output_dir):
                     ):  # A folders - Bright-field images
                         current_prompt = brightfield_prompt
                         current_negative = brightfield_negative
-                        guidance_scale = 4.0  # Increased for better edge enhancement
-                        num_steps = 55  # Slightly more steps for better edge definition
+                        guidance_scale = 4.0
+                        num_steps = 55
                         image_type = "Bright-field"
                     elif is_stained_folder(folder_name):  # B folders - Stained images
                         current_prompt = stained_prompt
