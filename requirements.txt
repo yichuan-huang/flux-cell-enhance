@@ -6,3 +6,4 @@ matplotlib
 Pillow
 numpy
 pathlib
+scikit-image
