@@ -33,17 +33,17 @@ def is_stained_folder(folder_name):
 
 
 # Define specialized prompts for different image types
-# For bright-field microscopy images (A folders) - enhanced for better edge clarity
-brightfield_prompt = "enhance bright-field microscopy, high cell-background contrast, sharp crisp cell boundaries, clear defined edges, enhanced cell outline"
-brightfield_negative = "noise amplification, grain, speckle, background texture, blurry edges, soft boundaries"
+# For bright-field microscopy images (A folders) - enhanced for better edge clarity and detail preservation
+brightfield_prompt = "enhance microscopy image quality, improve cellular detail visibility, increase contrast while preserving natural appearance, sharpen cell boundaries, reduce noise, maintain texture details"
+brightfield_negative = "over-saturation, artificial enhancement, distortion, blur, noise amplification, loss of detail, unnatural appearance, artifacts"
 
 # For stained cell images (B folders) - gentle enhancement with preserved cellular structures
-stained_prompt = "enhance stained microscopy, preserve cellular structures, improve clarity, maintain natural staining patterns, enhance cell visibility"
-stained_negative = "distortion, color shift, over-enhancement, artificial appearance, noise amplification, artifacts, excessive contrast, unnatural colors"
+stained_prompt = "enhance stained cell microscopy, improve image clarity and detail, preserve natural cellular morphology, maintain color accuracy, increase visibility of cellular structures"
+stained_negative = "color distortion, over-enhancement, artificial coloring, loss of cellular detail, contrast artifacts, unnatural appearance, noise amplification"
 
 # Default prompts for unknown folder types
-default_prompt = "enhance microscopy image, improve clarity, noise reduction"
-default_negative = "noise amplification, artifacts, over-processing"
+default_prompt = "enhance microscopy image quality, improve clarity and detail visibility, reduce noise"
+default_negative = "over-processing, artifacts, distortion, unnatural enhancement"
 
 os.makedirs(output_base_dir, exist_ok=True)
 
@@ -74,21 +74,23 @@ def process_directory(input_dir, output_dir):
                     ):  # A folders - Bright-field images
                         current_prompt = brightfield_prompt
                         current_negative = brightfield_negative
-                        guidance_scale = 4.0
-                        num_steps = 55
+                        guidance_scale = 2.5  # Reduced for more natural enhancement
+                        num_steps = 40  # Reduced for better balance
                         image_type = "Bright-field"
                     elif is_stained_folder(folder_name):  # B folders - Stained images
                         current_prompt = stained_prompt
                         current_negative = stained_negative
-                        guidance_scale = 3.0  # Reduced to prevent distortion
-                        num_steps = 45  # Fewer steps for gentler processing
+                        guidance_scale = (
+                            2.0  # Further reduced to prevent over-enhancement
+                        )
+                        num_steps = 35  # Reduced for gentler processing
                         image_type = "Stained"
                     else:
                         # Default fallback for unknown folder types
                         current_prompt = default_prompt
                         current_negative = default_negative
-                        guidance_scale = 3.5
-                        num_steps = 50
+                        guidance_scale = 2.2
+                        num_steps = 38
                         image_type = "Unknown"
 
                     print(f"Processing {image_type}: {item}")
