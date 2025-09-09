@@ -32,18 +32,20 @@ def is_stained_folder(folder_name):
     return bool(re.search(pattern, folder_name, re.IGNORECASE))
 
 
-# Define specialized prompts for different image types
-# For bright-field microscopy images (A folders) - enhanced for better edge clarity and detail preservation
-brightfield_prompt = "enhance microscopy image quality, improve cellular detail visibility, increase contrast while preserving natural appearance, sharpen cell boundaries, reduce noise, maintain texture details"
-brightfield_negative = "over-saturation, artificial enhancement, distortion, blur, noise amplification, loss of detail, unnatural appearance, artifacts"
+# Define optimized prompts with stronger emphasis on structural preservation and minimal distortion
+# For bright-field microscopy images (A folders) - improved edge definition while preserving structure
+brightfield_prompt = "enhance microscopy image with subtle improvements, gently increase cellular boundary clarity, preserve original morphological structure, maintain authentic texture patterns, minimal noise reduction while keeping fine details intact"
+brightfield_negative = "dramatic enhancement, structural deformation, artificial edge effects, over-sharpening, contrast artifacts, morphology alteration, heavy noise filtering, unnatural textures, processing artifacts"
 
-# For stained cell images (B folders) - gentle enhancement with preserved cellular structures
-stained_prompt = "enhance stained cell microscopy, improve image clarity and detail, preserve natural cellular morphology, maintain color accuracy, increase visibility of cellular structures"
-stained_negative = "color distortion, over-enhancement, artificial coloring, loss of cellular detail, contrast artifacts, unnatural appearance, noise amplification"
+# For stained cell images (B folders) - ultra-gentle enhancement to prevent distortion
+stained_prompt = "very gently enhance stained microscopy image, preserve exact cellular morphology and structure, maintain original color fidelity, minimal contrast adjustment, keep authentic staining patterns, subtle detail clarification without alteration"
+stained_negative = "color modification, structural changes, morphological distortion, contrast manipulation, saturation changes, artificial enhancement, processing distortion, staining pattern alteration, cellular deformation"
 
 # Default prompts for unknown folder types
-default_prompt = "enhance microscopy image quality, improve clarity and detail visibility, reduce noise"
-default_negative = "over-processing, artifacts, distortion, unnatural enhancement"
+default_prompt = "very gently enhance microscopy image quality, minimal processing, preserve original structure"
+default_negative = (
+    "over-processing, artifacts, distortion, structural changes, unnatural enhancement"
+)
 
 os.makedirs(output_base_dir, exist_ok=True)
 
@@ -74,28 +76,30 @@ def process_directory(input_dir, output_dir):
                     ):  # A folders - Bright-field images
                         current_prompt = brightfield_prompt
                         current_negative = brightfield_negative
-                        guidance_scale = 2.5  # Reduced for more natural enhancement
-                        num_steps = 40  # Reduced for better balance
+                        guidance_scale = (
+                            2.0  # Further reduced for more natural enhancement
+                        )
+                        num_steps = 30  # Reduced steps for gentler processing
                         image_type = "Bright-field"
                     elif is_stained_folder(folder_name):  # B folders - Stained images
                         current_prompt = stained_prompt
                         current_negative = stained_negative
                         guidance_scale = (
-                            2.0  # Further reduced to prevent over-enhancement
+                            1.5  # Significantly reduced to prevent distortion
                         )
-                        num_steps = 35  # Reduced for gentler processing
+                        num_steps = 25  # Minimal steps to avoid over-processing
                         image_type = "Stained"
                     else:
                         # Default fallback for unknown folder types
                         current_prompt = default_prompt
                         current_negative = default_negative
-                        guidance_scale = 2.2
-                        num_steps = 38
+                        guidance_scale = 1.8
+                        num_steps = 28
                         image_type = "Unknown"
 
                     print(f"Processing {image_type}: {item}")
                     print(
-                        f"  Parameters: guidance_scale={guidance_scale}, steps={num_steps}"
+                        f"  Conservative parameters: guidance_scale={guidance_scale}, steps={num_steps}"
                     )
 
                     # Load image
